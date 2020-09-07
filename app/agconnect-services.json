@@ -1,0 +1,30 @@
+{
+	"agcgw":{
+		"backurl":"connect-dre.dbankcloud.cn",
+		"url":"connect-dre.hispace.hicloud.com"
+	},
+	"client":{
+		"cp_id":"5190090000026360265",
+		"product_id":"736430079244623343",
+		"client_id":"444000588665980096",
+		"client_secret":"0743B5B8CC7DE588DCB9B853E587E9536A11D6683D6F96CD7C09D0A36CFDD14F",
+		"app_id":"102841133",
+		"package_name":"com.simge.safetydetectproject",
+		"api_key":"CgB6e3x9vhZmjziFvsyY/Qs61F6+PwbFbsY6O5wDdjpkWGss5ZEK7waePZ/m3MuTjfMf/7HFSpQU9nrUd1hK2Gk2"
+	},
+	"service":{
+		"analytics":{
+			"collector_url":"datacollector-dre.dt.hicloud.com,datacollector-dre.dt.dbankcloud.cn",
+			"resource_id":"p1",
+			"channel_id":""
+		},
+		"cloudstorage":{
+			"storage_url":"https://ops-dre.agcstorage.link"
+		},
+		"ml":{
+			"mlservice_url":"ml-api-dre.ai.dbankcloud.com,ml-api-dre.ai.dbankcloud.cn"
+		}
+	},
+	"region":"DE",
+	"configuration_version":"1.0"
+}
