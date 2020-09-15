@@ -1,5 +1,6 @@
 package com.simge.safetydetectproject;
 
+import android.app.AlertDialog;
 import android.content.Context;
 import android.util.Log;
 
@@ -31,6 +32,7 @@ public class WifiCheck {
             @Override
             public void onSuccess(WifiDetectResponse wifiDetectResponse) {
                 int wifiDetectStatus = wifiDetectResponse.getWifiDetectStatus();
+                showAlert("\n-1: Failed to obtain the Wi-Fi status. \n" + "0: No Wi-Fi is connected. \n" + "1: The connected Wi-Fi is secure. \n" + "2: The connected Wi-Fi is insecure." + "wifiDetectStatus is: " + wifiDetectStatus);
                 Log.i(TAG, "\n-1: Failed to obtain the Wi-Fi status. \n" + "0: No Wi-Fi is connected. \n" + "1: The connected Wi-Fi is secure. \n" + "2: The connected Wi-Fi is insecure.");
                 Log.i(TAG, "wifiDetectStatus is: " + wifiDetectStatus);
             }
@@ -43,10 +45,20 @@ public class WifiCheck {
                             "Error: " + apiException.getStatusCode() + ":"
                                     + SafetyDetectStatusCodes.getStatusCodeString(apiException.getStatusCode()) + ": "
                                     + apiException.getStatusMessage());
+                    showAlert("Error: " + apiException.getStatusCode() + ":"
+                            + SafetyDetectStatusCodes.getStatusCodeString(apiException.getStatusCode()) + ": "
+                            + apiException.getStatusMessage());
                 } else {
                     Log.e(TAG, "ERROR! " + e.getMessage());
+                    showAlert("ERROR! " + e.getMessage());
                 }
             }
         });
+    }
+    public void showAlert(String message){
+        AlertDialog alertDialog = new AlertDialog.Builder(context).create();
+        alertDialog.setTitle("WifiCheck");
+        alertDialog.setMessage(message);
+        alertDialog.show();
     }
 }

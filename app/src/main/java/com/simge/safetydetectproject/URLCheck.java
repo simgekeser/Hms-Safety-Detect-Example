@@ -1,5 +1,6 @@
 package com.simge.safetydetectproject;
 
+import android.app.AlertDialog;
 import android.content.Context;
 import android.util.Log;
 import android.widget.Toast;
@@ -49,9 +50,11 @@ public class URLCheck {
                         List<UrlCheckThreat> list = urlCheckResponse.getUrlCheckResponse();
                         if (list.isEmpty()) {
                             // No threats found.
+                            showAlert("No Threats found!");
                             Log.i(TAG,"No Threats found!");
                         } else {
                             // Threats found!
+                            showAlert("Threats found!");
                             Log.i(TAG,"Threats found!");
                         }
                     }
@@ -77,10 +80,17 @@ public class URLCheck {
                             // Unknown type of error has occurred.
                             errorMsg = e.getMessage();
                         }
+                        showAlert(errorMsg);
                         Log.d(TAG, errorMsg);
                         Toast.makeText(context.getApplicationContext(), errorMsg, Toast.LENGTH_SHORT).show();
                     }
                 });
 
+    }
+    public void showAlert(String message){
+        AlertDialog alertDialog = new AlertDialog.Builder(context).create();
+        alertDialog.setTitle("URLCheck");
+        alertDialog.setMessage(message);
+        alertDialog.show();
     }
 }

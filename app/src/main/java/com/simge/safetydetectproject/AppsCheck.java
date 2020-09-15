@@ -1,5 +1,6 @@
 package com.simge.safetydetectproject;
 
+import android.app.AlertDialog;
 import android.content.Context;
 import android.util.Log;
 
@@ -40,8 +41,10 @@ public class AppsCheck {
                 if (maliciousAppsListResp.getRtnCode() == CommonCode.OK) {
                     if (appsDataList.isEmpty()) {
                         // Indicates there are no known malicious apps.
+                        showAlert("There are no known potentially malicious apps installed.");
                         Log.i(TAG, "There are no known potentially malicious apps installed.");
                     } else {
+                        showAlert("Potentially malicious apps are installed!");
                         Log.i(TAG, "Potentially malicious apps are installed!");
                         for (MaliciousAppsData maliciousApp : appsDataList) {
                             Log.i(TAG, "Information about a malicious app:");
@@ -55,6 +58,7 @@ public class AppsCheck {
                         }
                     }
                 } else {
+                    showAlert("getMaliciousAppsList fialed: " + maliciousAppsListResp.getErrorReason());
                     Log.e(TAG, "getMaliciousAppsList fialed: " + maliciousAppsListResp.getErrorReason());
                 }
             }
@@ -67,6 +71,7 @@ public class AppsCheck {
                     // additional details.
                     ApiException apiException = (ApiException) e;
                     // You can retrieve the status code using the apiException.getStatusCode() method.
+                   showAlert("Error: " + SafetyDetectStatusCodes.getStatusCodeString(apiException.getStatusCode()) + ": " + apiException.getStatusMessage());
                     Log.e(TAG, "Error: " + SafetyDetectStatusCodes.getStatusCodeString(apiException.getStatusCode()) + ": " + apiException.getStatusMessage());
                 } else {
                     // A different, unknown type of error occurred.
@@ -74,5 +79,11 @@ public class AppsCheck {
                 }
             }
         });
+    }
+    public void showAlert(String message){
+        AlertDialog alertDialog = new AlertDialog.Builder(context).create();
+        alertDialog.setTitle("AppsCheck");
+        alertDialog.setMessage(message);
+        alertDialog.show();
     }
 }

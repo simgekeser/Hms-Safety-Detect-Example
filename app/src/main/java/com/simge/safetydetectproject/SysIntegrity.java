@@ -1,5 +1,6 @@
 package com.simge.safetydetectproject;
 
+import android.app.AlertDialog;
 import android.content.Context;
 import android.util.Base64;
 import android.util.Log;
@@ -64,6 +65,7 @@ public class SysIntegrity {
                     final boolean basicIntegrity = jsonObject.getBoolean("basicIntegrity");
                     String isBasicIntegrity = String.valueOf(basicIntegrity);
                     String basicIntegrityResult = "Basic Integrity: " + isBasicIntegrity;
+                    showAlert(basicIntegrityResult);
                     Log.i(TAG, basicIntegrityResult);
                     if (!basicIntegrity) {
                         String advice = "Advice: " + jsonObject.getString("advice");
@@ -71,6 +73,7 @@ public class SysIntegrity {
                     }
                 } catch (JSONException e) {
                     String errorMsg = e.getMessage();
+                    showAlert(errorMsg + "unknown error");
                     Log.e(TAG, errorMsg != null ? errorMsg : "unknown error");
                 }
             }
@@ -84,12 +87,20 @@ public class SysIntegrity {
                     ApiException apiException = (ApiException) e;
                     // You can retrieve the status code using
                     // the apiException.getStatusCode() method.
+                    showAlert("Error: " + SafetyDetectStatusCodes.getStatusCodeString(apiException.getStatusCode()) + ": " + apiException.getMessage());
                     Log.e(TAG, "Error: " + SafetyDetectStatusCodes.getStatusCodeString(apiException.getStatusCode()) + ": " + apiException.getMessage());
                 } else {
                     // A different, unknown type of error occurred.
+                    showAlert("ERROR:"+e.getMessage());
                     Log.e(TAG, "ERROR:" + e.getMessage());
                 }
             }
         });
+    }
+    public void showAlert(String message){
+        AlertDialog alertDialog = new AlertDialog.Builder(context).create();
+        alertDialog.setTitle("SysIntegrity");
+        alertDialog.setMessage(message);
+        alertDialog.show();
     }
 }
